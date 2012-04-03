@@ -297,9 +297,8 @@
                         tot += multi ? values[j][i] : values[i];
 
                         if (j == multi - 1) {
-                            var label = paper.labelise(labels[i], tot, total);
-
-                            L = paper.text(bars[i * (multi || 1) + j].x, y + height - barvgutter / 2, label).attr(txtattr).insertBefore(covers[i * (multi || 1) + j]);
+                            var label = chartinst.labelise(labels[i], tot, total);
+                            L = paper.text(bars[j][i].x, y + height - barvgutter / 2, label).attr(chartinst.txtattr).attr({ fill: opts.legendcolor || "#000", "text-anchor": "start"}).insertBefore(covers[i * (multi || 1) + j]);
 
                             var bb = L.getBBox();
 
@@ -315,11 +314,12 @@
             } else {
                 for (var i = 0; i < len; i++) {
                     for (var j = 0; j < (multi || 1); j++) {
-                        var label = paper.labelise(multi ? labels[j] && labels[j][i] : labels[i], multi ? values[j][i] : values[i], total);
+                        var label = chartinst.labelise(multi ? labels[j] && labels[j][i] : labels[i], multi ? values[j][i] : values[i], total);
 
-                        L = paper.text(bars[i * (multi || 1) + j].x, isBottom ? y + height - barvgutter / 2 : bars[i * (multi || 1) + j].y - 10, label).attr(txtattr).insertBefore(covers[i * (multi || 1) + j]);
+                        L = paper.text(bars[j][i].x - barwidth/2, isBottom ? y + height - barvgutter / 2 : bars[j][i].y - 10, label).attr(chartinst.txtattr).attr({ fill: opts.legendcolor || "#000", "text-anchor": "start"}).insertBefore(covers[i * (multi || 1) + j]);
 
                         var bb = L.getBBox();
+                        L.translate((barwidth - bb.width)/2, 1);
 
                         if (bb.x - 7 < l) {
                             L.remove();
@@ -532,17 +532,17 @@
 
             for (var i = 0; i < len; i++) {
                 for (var j = 0; j < multi; j++) {
-                    var  label = paper.labelise(multi ? labels[j] && labels[j][i] : labels[i], multi ? values[j][i] : values[i], total),
-                        X = isRight ? bars[i * (multi || 1) + j].x - barheight / 2 + 3 : x + 5,
+                    var  label = chartinst.labelise(multi ? labels[j] && labels[j][i] : labels[i], multi ? values[j][i] : values[i], total),
+                        X = isRight ? bars[j][i].x - barheight / 2 + 3 : x + 5,
                         A = isRight ? "end" : "start",
                         L;
 
-                    this.labels.push(L = paper.text(X, bars[i * (multi || 1) + j].y, label).attr(txtattr).attr({ "text-anchor": A }).insertBefore(covers[0]));
+                    this.labels.push(L = paper.text(X, bars[j][i].y, label).attr(chartinst.txtattr).attr({ fill: opts.legendcolor || "#000", "text-anchor": "start"}).insertBefore(covers[0]));
 
                     if (L.getBBox().x < x + 5) {
                         L.attr({x: x + 5, "text-anchor": "start"});
                     } else {
-                        bars[i * (multi || 1) + j].label = L;
+                        bars[j][i].label = L;
                     }
                 }
             }
