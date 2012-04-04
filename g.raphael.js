@@ -49,9 +49,8 @@ Raphael.el.popup = function (dir, size, x, y) {
     y = typeof y == 'number' ? y : (center ? bb.y + bb.height / 2 : bb.y);
     cw = Math.max(bb.width / 2 - size, 0);
     ch = Math.max(bb.height / 2 - size, 0);
-
-    this.translate(x - bb.x - (center ? bb.width / 2 : 0), y - bb.y - (center ? bb.height / 2 : 0));
-    bb = this.getBBox();
+    //this.translate(x - bb.x - (center ? bb.width / 2 : 0), y - bb.y - (center ? bb.height / 2 : 0));
+    //bb = this.getBBox();
 
     var paths = {
         up: [
@@ -478,9 +477,8 @@ Raphael.fn.label = function (x, y, text) {
  \*/
 Raphael.fn.popup = function (x, y, text, dir, size) {
     var set = this.set();
-
     text = this.text(x, y, text).attr(Raphael.g.txtattr);
-    return set.push(text.popup(dir, size), text);
+    return set.push(text.popup(dir, size, x, y), text);
 };
 
 /*\
